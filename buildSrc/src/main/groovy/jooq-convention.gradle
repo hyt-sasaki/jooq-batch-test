@@ -1,0 +1,36 @@
+import nu.studer.gradle.jooq.JooqEdition
+
+plugins {
+    id 'nu.studer.jooq'
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    jooqGenerator 'mysql:mysql-connector-java:8.0.28'
+}
+
+jooq {
+    configurations {
+        main {
+            generateSchemaSourceOnCompilation = false
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.WARN
+                jdbc {
+                    driver = 'com.mysql.cj.jdbc.Driver'
+                    url = 'jdbc:mysql://127.0.0.1:13306/sakila'
+                    user = 'docker'
+                    password = 'docker'
+                }
+                generator {
+                    target {
+                        packageName = 'org.example.generated'
+                    }
+                }
+            }
+        }
+    }
+}
